@@ -1,0 +1,161 @@
+/* ─── Wrapper ────────────────────────────────────────────── */
+.sdb-wrap { max-width: 960px; }
+
+.sdb-page-title {
+  display: flex;
+  align-items: center;
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+/* ─── Preview area ───────────────────────────────────────── */
+#sdb-preview-wrap {
+  background: #f0f0f1;
+  border: 1px solid #c3c4c7;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+#sdb-preview-wrap h3 { margin-top: 0; }
+#sdb-preview-container {
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px dashed #bbb;
+}
+
+/* ─── Tab nav ────────────────────────────────────────────── */
+.sdb-tabs {
+  background: #fff;
+  border: 1px solid #c3c4c7;
+  box-shadow: 0 1px 1px rgba(0,0,0,.04);
+  margin-top: 16px;
+}
+
+.sdb-tab-nav {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: #f6f7f7;
+  border-bottom: 1px solid #c3c4c7;
+}
+
+.sdb-tab-nav li { margin: 0; }
+
+.sdb-tab-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  text-decoration: none;
+  color: #444;
+  font-weight: 500;
+  font-size: 13px;
+  border-right: 1px solid #c3c4c7;
+  transition: background .15s, color .15s;
+}
+
+.sdb-tab-link:hover { color: #0073aa; background: #eaf4fb; }
+
+.sdb-tab-link.is-active {
+  background: #fff;
+  color: #0073aa;
+  border-bottom: 2px solid #fff;
+  margin-bottom: -1px;
+  padding-bottom: 13px;
+}
+
+.sdb-tab-link .dashicons { font-size: 16px; width: 16px; height: 16px; }
+
+/* ─── Tab panels ─────────────────────────────────────────── */
+.sdb-tab-panel         { display: none; padding: 8px 20px 20px; }
+.sdb-tab-panel.is-active { display: block; }
+
+/* ─── Section subheaders inside form-table ───────────────── */
+.sdb-section-head {
+  background: #f6f7f7;
+  padding: 10px 12px !important;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3c434a;
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+/* ─── Toggle switch ──────────────────────────────────────── */
+.sdb-toggle {
+  position: relative;
+  display: inline-block;
+  width: 48px;
+  height: 26px;
+  vertical-align: middle;
+  margin-right: 8px;
+  cursor: pointer;
+}
+.sdb-toggle input { opacity: 0; width: 0; height: 0; }
+.sdb-slider {
+  position: absolute;
+  inset: 0;
+  background: #b5b5ba;
+  border-radius: 26px;
+  transition: .25s;
+}
+.sdb-slider::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  bottom: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: .25s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.3);
+}
+.sdb-toggle input:checked + .sdb-slider { background: #0073aa; }
+.sdb-toggle input:checked + .sdb-slider::before { transform: translateX(22px); }
+.sdb-toggle input:focus + .sdb-slider { outline: 2px solid #0073aa; outline-offset: 2px; }
+
+/* ─── Spacing grid (padding / margin inputs) ─────────────── */
+.sdb-spacing {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.sdb-spacing label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #555;
+  font-weight: 600;
+}
+.sdb-spacing input { width: 60px; }
+
+/* ─── Select2 overrides ──────────────────────────────────── */
+.select2-container--default { min-width: 320px; max-width: 100%; }
+.select2-container--default .select2-selection--multiple {
+  min-height: 36px;
+  border-color: #8c8f94;
+  border-radius: 3px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+  background: #0073aa;
+  color: #fff;
+  border: none;
+  border-radius: 2px;
+  padding: 2px 6px;
+}
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove { color: rgba(255,255,255,.8); }
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover { color: #fff; }
+
+/* ─── Footer action bar ──────────────────────────────────── */
+.sdb-footer-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  background: #f6f7f7;
+  border-top: 1px solid #c3c4c7;
+}
