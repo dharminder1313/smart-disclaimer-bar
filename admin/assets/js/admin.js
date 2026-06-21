@@ -14,12 +14,8 @@ jQuery(function ($) {
   /* ── Colour pickers ──────────────────────────────────── */
   $('.sdb-color').wpColorPicker();
 
-  /* ── Select2 multi-selects ───────────────────────────── */
-  $('.sdb-select2').select2({
-    placeholder: 'Select…',
-    allowClear: true,
-    width: '100%',
-  });
+  /* ── Native multi-select sizing ──────────────────────── */
+  $('.sdb-select2').attr('size', 8);
 
   /* ── Opacity range live display ──────────────────────── */
   $('#sdb-opacity').on('input', function () {

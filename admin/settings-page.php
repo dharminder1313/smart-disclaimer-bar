@@ -2,8 +2,7 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 if ( ! current_user_can( 'manage_options' ) ) return;
 
-$s      = SDB_Settings::get();
-$notice = isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] === 'true';
+$s = SDB_Settings::get();
 
 $pages      = get_pages( [ 'sort_column' => 'post_title', 'sort_order' => 'asc' ] );
 $posts      = get_posts( [ 'numberposts' => 300, 'orderby' => 'title', 'order' => 'ASC', 'post_status' => 'publish' ] );
@@ -16,9 +15,7 @@ unset( $post_types['attachment'] );
     <?php esc_html_e( 'Disclaimer Manager', 'smart-disclaimer-bar' ); ?>
   </h1>
 
-  <?php if ( $notice ) : ?>
-  <div class="notice notice-success is-dismissible"><p><?php esc_html_e( 'Settings saved.', 'smart-disclaimer-bar' ); ?></p></div>
-  <?php endif; ?>
+  <?php settings_errors(); ?>
 
   <div id="sdb-preview-wrap" style="display:none;" aria-live="polite">
     <h3><?php esc_html_e( 'Live Preview', 'smart-disclaimer-bar' ); ?></h3>

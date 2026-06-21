@@ -37,35 +37,20 @@ class SDB_Admin {
 		// TinyMCE / WP editor
 		wp_enqueue_editor();
 
-		// Select2 (CDN – admin only, fine for a back-end UI)
-		wp_enqueue_style(
-			'sdb-select2',
-			'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
-			[],
-			'4.1.0'
-		);
-		wp_enqueue_script(
-			'sdb-select2',
-			'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js',
-			[ 'jquery' ],
-			'4.1.0',
-			true
-		);
-
 		$css = SDB_PLUGIN_DIR . 'admin/assets/css/admin.css';
 		$js  = SDB_PLUGIN_DIR . 'admin/assets/js/admin.js';
 
 		wp_enqueue_style(
 			'sdb-admin',
 			SDB_PLUGIN_URL . 'admin/assets/css/admin.css',
-			[ 'wp-color-picker', 'sdb-select2' ],
+			[ 'wp-color-picker' ],
 			file_exists( $css ) ? (string) filemtime( $css ) : SDB_VERSION
 		);
 
 		wp_enqueue_script(
 			'sdb-admin',
 			SDB_PLUGIN_URL . 'admin/assets/js/admin.js',
-			[ 'jquery', 'wp-color-picker', 'sdb-select2' ],
+			[ 'jquery', 'wp-color-picker' ],
 			file_exists( $js ) ? (string) filemtime( $js ) : SDB_VERSION,
 			true
 		);
@@ -88,7 +73,7 @@ class SDB_Admin {
 		check_ajax_referer( 'sdb_preview', 'nonce' );
 		if ( ! current_user_can( 'manage_options' ) ) wp_die();
 
-		$raw      = $_POST['settings'] ?? [];
+		$raw      = isset( $_POST['settings'] ) ? (array) map_deep( wp_unslash( $_POST['settings'] ), 'wp_kses_post' ) : [];
 		$settings = wp_parse_args( SDB_Settings::sanitize( (array) $raw ), SDB_Settings::defaults() );
 
 		ob_start();

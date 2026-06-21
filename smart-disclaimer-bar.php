@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Smart Disclaimer Bar
- * Plugin URI:  https://linkedin.com/in/dharminder-singh-dhaliwal
+ * Plugin URI:  https://github.com/dharminder1313/smart-disclaimer-bar/
  * Description: Display a customizable disclaimer bar anywhere on your site — position, style, animation, dismiss, and scope fully configurable from Settings → Disclaimer Manager.
  * Version:     1.0.0
  * Author:      Dharminder Singh
@@ -10,7 +10,7 @@
  * License:     GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 5.6
- * Tested up to: 6.5
+ * Tested up to: 7.0
  * Requires PHP: 7.4
  */
 
