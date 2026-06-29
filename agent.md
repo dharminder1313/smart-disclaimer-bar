@@ -1,17 +1,17 @@
-# Smart Disclaimer Bar — Agent Guide
+# Evolnux Disclaimer Bar — Agent Guide
 
 ## Purpose
-A lightweight WordPress plugin (no database tables) that injects a configurable disclaimer bar into any position on the frontend. All settings live in a single serialized option: `sdb_settings`.
+A lightweight WordPress plugin (no database tables) that injects a configurable disclaimer bar into any position on the frontend. All settings live in a single serialized option: `evolnux_settings`.
 
 ## File Map
 ```
-smart-disclaimer-bar/
-├── smart-disclaimer-bar.php     Main plugin file — constants, boot, activation
-├── uninstall.php                Deletes sdb_settings option on removal
+evolnux-disclaimer-bar/
+├── evolnux-disclaimer-bar.php     Main plugin file — constants, boot, activation
+├── uninstall.php                Deletes evolnux_settings option on removal
 ├── includes/
 │   ├── class-loader.php         Queues actions/filters and fires them via run()
 │   ├── class-settings.php       defaults(), get(), sanitize() — single source of truth
-│   └── helper-functions.php     sdb_should_display(), sdb_build_inline_style()
+│   └── helper-functions.php     evolnux_should_display(), evolnux_build_inline_style()
 ├── admin/
 │   ├── class-admin.php          Admin: menu, settings API, enqueue, preview AJAX
 │   ├── settings-page.php        Admin UI template (4-tab form)
@@ -19,13 +19,13 @@ smart-disclaimer-bar/
 │       ├── css/admin.css        Tab nav, toggles, Select2 overrides, spacing grid
 │       └── js/admin.js          Tabs, wpColorPicker, Select2, opacity live display, preview AJAX
 └── public/
-    ├── class-frontend.php       Frontend: sdb_should_display check, hook routing, render_bar()
+    ├── class-frontend.php       Frontend: evolnux_should_display check, hook routing, render_bar()
     └── assets/
         ├── css/disclaimer-bar.css   Bar layout, fixed positions, animations, responsive
         └── js/disclaimer-bar.js     Dismiss logic (cookie + localStorage), DOM reposition
 ```
 
-## Settings Schema (`sdb_settings` option)
+## Settings Schema (`evolnux_settings` option)
 | Key | Type | Default | Notes |
 |-----|------|---------|-------|
 | enabled | bool | false | Master on/off |
@@ -58,10 +58,10 @@ smart-disclaimer-bar/
 | z_index | int | 9999 | |
 
 ## Key Classes
-- **SDB_Loader** — collects add_action/add_filter calls and fires them all in `run()`.
-- **SDB_Settings** — never reads/writes the option directly from views; always go through `get()` and `sanitize()`.
-- **SDB_Admin** — registers under Settings → Disclaimer Manager. Preview AJAX (`sdb_preview` action) returns rendered HTML.
-- **SDB_Frontend** — hooks into `wp` to check display conditions, then conditionally hooks `render_bar()` into the right action. Frontend assets are only enqueued when the bar will display.
+- **EVOLNUX_Loader** — collects add_action/add_filter calls and fires them all in `run()`.
+- **EVOLNUX_Settings** — never reads/writes the option directly from views; always go through `get()` and `sanitize()`.
+- **EVOLNUX_Admin** — registers under Settings → Disclaimer Manager. Preview AJAX (`evolnux_preview` action) returns rendered HTML.
+- **EVOLNUX_Frontend** — hooks into `wp` to check display conditions, then conditionally hooks `render_bar()` into the right action. Frontend assets are only enqueued when the bar will display.
 
 ## Hook Routing (position → WordPress hook)
 | Position | Primary hook | Fallback |
@@ -75,13 +75,13 @@ smart-disclaimer-bar/
 ## Dismiss Persistence (JS)
 - `expiry > 0`: cookie + `localStorage`, both set to the expiry period.
 - `expiry = 0`: `sessionStorage` only (resets on browser close).
-- Storage key: `sdb_dismissed`.
+- Storage key: `evolnux_dismissed`.
 
 ## Future Extension Points
-- **Multiple bars**: convert `sdb_settings` to `sdb_settings[]` (array of configs). SDB_Settings::get() returns array, frontend loops and renders each.
-- **Scheduled disclaimers**: add `start_date` / `end_date` fields; check in `sdb_should_display()`.
-- **Geo-targeting**: call a geolocation API in `sdb_should_display()` or via JS class injection.
-- **User-role targeting**: `current_user_can()` check in `sdb_should_display()`.
-- **Shortcode**: `add_shortcode('disclaimer_bar', [SDB_Frontend::class, 'render_bar'])`.
-- **Gutenberg block**: register `sdb/disclaimer-bar` block that calls `render_bar()` as `render_callback`.
-- **AJAX preview nonce**: `sdb_preview` (created in SDB_Admin::enqueue_assets, verified in ajax_preview).
+- **Multiple bars**: convert `evolnux_settings` to `evolnux_settings[]` (array of configs). EVOLNUX_Settings::get() returns array, frontend loops and renders each.
+- **Scheduled disclaimers**: add `start_date` / `end_date` fields; check in `evolnux_should_display()`.
+- **Geo-targeting**: call a geolocation API in `evolnux_should_display()` or via JS class injection.
+- **User-role targeting**: `current_user_can()` check in `evolnux_should_display()`.
+- **Shortcode**: `add_shortcode('disclaimer_bar', [EVOLNUX_Frontend::class, 'render_bar'])`.
+- **Gutenberg block**: register `evolnux/disclaimer-bar` block that calls `render_bar()` as `render_callback`.
+- **AJAX preview nonce**: `evolnux_preview` (created in EVOLNUX_Admin::enqueue_assets, verified in ajax_preview).

@@ -1,19 +1,19 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class SDB_Frontend {
+class EVOLNUX_Frontend {
 
 	private array $settings = [];
 
-	public function register( SDB_Loader $loader ): void {
+	public function register( EVOLNUX_Loader $loader ): void {
 		// Delay display logic until query is ready (conditional tags need it)
 		$loader->add_action( 'wp', [ $this, 'maybe_init' ] );
 	}
 
 	public function maybe_init(): void {
-		$this->settings = SDB_Settings::get();
+		$this->settings = EVOLNUX_Settings::get();
 
-		if ( ! sdb_should_display( $this->settings ) ) {
+		if ( ! evolnux_should_display( $this->settings ) ) {
 			return;
 		}
 
@@ -53,25 +53,25 @@ class SDB_Frontend {
 	}
 
 	public function enqueue_assets(): void {
-		$css = SDB_PLUGIN_DIR . 'public/assets/css/disclaimer-bar.css';
-		$js  = SDB_PLUGIN_DIR . 'public/assets/js/disclaimer-bar.js';
+		$css = EVOLNUX_PLUGIN_DIR . 'public/assets/css/disclaimer-bar.css';
+		$js  = EVOLNUX_PLUGIN_DIR . 'public/assets/js/disclaimer-bar.js';
 
 		wp_enqueue_style(
-			'sdb-bar',
-			SDB_PLUGIN_URL . 'public/assets/css/disclaimer-bar.css',
+			'evolnux-bar',
+			EVOLNUX_PLUGIN_URL . 'public/assets/css/disclaimer-bar.css',
 			[],
-			file_exists( $css ) ? (string) filemtime( $css ) : SDB_VERSION
+			file_exists( $css ) ? (string) filemtime( $css ) : EVOLNUX_VERSION
 		);
 
 		wp_enqueue_script(
-			'sdb-bar',
-			SDB_PLUGIN_URL . 'public/assets/js/disclaimer-bar.js',
+			'evolnux-bar',
+			EVOLNUX_PLUGIN_URL . 'public/assets/js/disclaimer-bar.js',
 			[],
-			file_exists( $js ) ? (string) filemtime( $js ) : SDB_VERSION,
+			file_exists( $js ) ? (string) filemtime( $js ) : EVOLNUX_VERSION,
 			true
 		);
 
-		wp_localize_script( 'sdb-bar', 'sdbCfg', [
+		wp_localize_script( 'evolnux-bar', 'evolnuxCfg', [
 			'position'    => $this->settings['position'],
 			'animation'   => $this->settings['animation'],
 			'responsive'  => $this->settings['responsive'],
@@ -87,7 +87,7 @@ class SDB_Frontend {
 	public function render_bar(): void {
 		$this->rendered = true;
 		$s = $this->settings;
-		$style = sdb_build_inline_style( $s );
+		$style = evolnux_build_inline_style( $s );
 
 		$fixed_style = '';
 		if ( in_array( $s['position'], [ 'fixed_top', 'fixed_bottom' ], true ) ) {
@@ -95,27 +95,27 @@ class SDB_Frontend {
 		}
 
 		$classes = implode( ' ', array_filter( [
-			'sdb-bar',
-			'sdb-pos-' . sanitize_html_class( $s['position'] ),
-			'sdb-w-'   . sanitize_html_class( $s['width_type'] ),
-			'sdb-resp-' . sanitize_html_class( $s['responsive'] ),
-			$s['animation'] !== 'none' ? 'sdb-anim-' . sanitize_html_class( $s['animation'] ) : '',
+			'evolnux-bar',
+			'evolnux-pos-' . sanitize_html_class( $s['position'] ),
+			'evolnux-w-'   . sanitize_html_class( $s['width_type'] ),
+			'evolnux-resp-' . sanitize_html_class( $s['responsive'] ),
+			$s['animation'] !== 'none' ? 'evolnux-anim-' . sanitize_html_class( $s['animation'] ) : '',
 		] ) );
 		?>
 		<div class="<?php echo esc_attr( $classes ); ?>"
-		     id="sdb-bar"
+		     id="evolnux-bar"
 		     role="complementary"
-		     aria-label="<?php esc_attr_e( 'Disclaimer', 'smart-disclaimer-bar' ); ?>"
+		     aria-label="<?php esc_attr_e( 'Disclaimer', 'evolnux-disclaimer-bar' ); ?>"
 		     style="<?php echo esc_attr( $style . $fixed_style ); ?>">
 
 			<?php if ( $s['width_type'] === 'boxed' ) : ?>
-			<div class="sdb-inner">
+			<div class="evolnux-inner">
 			<?php endif; ?>
 
-			<div class="sdb-content"><?php echo wp_kses_post( $s['content'] ); ?></div>
+			<div class="evolnux-content"><?php echo wp_kses_post( $s['content'] ); ?></div>
 
 			<?php if ( ! empty( $s['dismissible'] ) ) : ?>
-			<button type="button" class="sdb-close" aria-label="<?php esc_attr_e( 'Close disclaimer', 'smart-disclaimer-bar' ); ?>">
+			<button type="button" class="evolnux-close" aria-label="<?php esc_attr_e( 'Close disclaimer', 'evolnux-disclaimer-bar' ); ?>">
 				<?php echo esc_html( $s['dismiss_text'] ?: '×' ); ?>
 			</button>
 			<?php endif; ?>

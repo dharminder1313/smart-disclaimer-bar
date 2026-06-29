@@ -1,5 +1,5 @@
 /* ─── Base bar ───────────────────────────────────────────── */
-.sdb-bar {
+.evolnux-bar {
   box-sizing: border-box;
   width: 100%;
   position: relative;
@@ -7,14 +7,14 @@
 }
 
 /* ─── Fixed positions ────────────────────────────────────── */
-.sdb-bar.sdb-pos-fixed_top {
+.evolnux-bar.evolnux-pos-fixed_top {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
 }
 
-.sdb-bar.sdb-pos-fixed_bottom {
+.evolnux-bar.evolnux-pos-fixed_bottom {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -22,13 +22,13 @@
 }
 
 /* Shift fixed-top bar down when WP admin bar is visible */
-.admin-bar .sdb-bar.sdb-pos-fixed_top { top: 32px; }
+.admin-bar .evolnux-bar.evolnux-pos-fixed_top { top: 32px; }
 @media screen and (max-width: 782px) {
-  .admin-bar .sdb-bar.sdb-pos-fixed_top { top: 46px; }
+  .admin-bar .evolnux-bar.evolnux-pos-fixed_top { top: 46px; }
 }
 
 /* ─── Boxed container ────────────────────────────────────── */
-.sdb-inner {
+.evolnux-inner {
   max-width: 1200px;
   margin-left: auto;
   margin-right: auto;
@@ -38,16 +38,16 @@
 }
 
 /* ─── Content area ───────────────────────────────────────── */
-.sdb-content {
+.evolnux-content {
   display: block;
   padding-right: 40px; /* space for dismiss button */
 }
 
-.sdb-content a { color: inherit; }
-.sdb-content p { margin: 0; }
+.evolnux-content a { color: inherit; }
+.evolnux-content p { margin: 0; }
 
 /* ─── Dismiss / close button ─────────────────────────────── */
-.sdb-close {
+.evolnux-close {
   position: absolute;
   top: 50%;
   right: 12px;
@@ -63,49 +63,49 @@
   border-radius: 3px;
   transition: opacity .2s, background .2s;
 }
-.sdb-close:hover {
+.evolnux-close:hover {
   opacity: 1;
   background: rgba(0, 0, 0, 0.08);
 }
 
 /* When using a boxed inner, the close button positions relative to it */
-.sdb-w-boxed .sdb-inner { position: relative; }
-.sdb-w-boxed .sdb-close { position: absolute; right: 12px; }
+.evolnux-w-boxed .evolnux-inner { position: relative; }
+.evolnux-w-boxed .evolnux-close { position: absolute; right: 12px; }
 
 /* ─── Responsive visibility ──────────────────────────────── */
 @media (max-width: 767px) {
-  .sdb-bar.sdb-resp-desktop { display: none !important; }
+  .evolnux-bar.evolnux-resp-desktop { display: none !important; }
 }
 @media (min-width: 768px) {
-  .sdb-bar.sdb-resp-mobile  { display: none !important; }
+  .evolnux-bar.evolnux-resp-mobile  { display: none !important; }
 }
 
 /* ─── Animations ─────────────────────────────────────────── */
-@keyframes sdb-fade-in {
+@keyframes evolnux-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
 }
 
-@keyframes sdb-slide-down {
+@keyframes evolnux-slide-down {
   from { transform: translateY(-100%); }
   to   { transform: translateY(0); }
 }
 
-@keyframes sdb-slide-up {
+@keyframes evolnux-slide-up {
   from { transform: translateY(100%); }
   to   { transform: translateY(0); }
 }
 
-.sdb-bar.sdb-anim-fade_in   { animation: sdb-fade-in   0.45s ease both; }
-.sdb-bar.sdb-anim-slide_down { animation: sdb-slide-down 0.4s ease both; }
-.sdb-bar.sdb-anim-slide_up   { animation: sdb-slide-up   0.4s ease both; }
+.evolnux-bar.evolnux-anim-fade_in   { animation: evolnux-fade-in   0.45s ease both; }
+.evolnux-bar.evolnux-anim-slide_down { animation: evolnux-slide-down 0.4s ease both; }
+.evolnux-bar.evolnux-anim-slide_up   { animation: evolnux-slide-up   0.4s ease both; }
 
 /* Fixed bars with slide_down / slide_up need overflow hidden on body
    to avoid scrollbar flash — handled in JS */
-.sdb-bar.sdb-pos-fixed_top.sdb-anim-slide_down,
-.sdb-bar.sdb-pos-fixed_bottom.sdb-anim-slide_up {
+.evolnux-bar.evolnux-pos-fixed_top.evolnux-anim-slide_down,
+.evolnux-bar.evolnux-pos-fixed_bottom.evolnux-anim-slide_up {
   overflow: hidden;
 }
 
 /* ─── Admin preview bar (no animation flash in preview) ──── */
-.sdb-preview-bar { animation: none !important; }
+.evolnux-preview-bar { animation: none !important; }

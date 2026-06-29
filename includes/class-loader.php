@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class SDB_Loader {
+class EVOLNUX_Loader {
 
 	private $actions = [];
 	private $filters = [];

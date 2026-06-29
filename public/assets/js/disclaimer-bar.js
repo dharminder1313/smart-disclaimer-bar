@@ -1,11 +1,11 @@
 (function () {
   'use strict';
 
-  var cfg = window.sdbCfg || {};
-  var STORAGE_KEY = 'sdb_dismissed';
+  var cfg = window.evolnuxCfg || {};
+  var STORAGE_KEY = 'evolnux_dismissed';
 
   function getBar() {
-    return document.getElementById('sdb-bar');
+    return document.getElementById('evolnux-bar');
   }
 
   /* ── Cookie helpers ──────────────────────────────────── */
@@ -83,7 +83,7 @@
 
     // Dismiss button
     if (cfg.dismissible) {
-      var btn = bar.querySelector('.sdb-close');
+      var btn = bar.querySelector('.evolnux-close');
       if (btn) {
         btn.addEventListener('click', function () {
           bar.style.transition = 'opacity .3s';

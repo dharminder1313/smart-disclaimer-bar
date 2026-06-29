@@ -1,5 +1,5 @@
-=== Smart Disclaimer Bar ===
-Contributors: dharminder1313
+=== Evolnux Disclaimer Bar ===
+Contributors: evolnux
 Tags: disclaimer, notice bar, announcement bar, notification bar, banner
 Requires at least: 5.6
 Tested up to: 7.0
@@ -12,7 +12,7 @@ Display a customizable disclaimer bar with flexible position, style, animation, 
 
 == Description ==
 
-Smart Disclaimer Bar adds a configurable disclaimer bar to your WordPress site. Use it for financial disclaimers, legal notices, risk notices, compliance messages, affiliate disclosures, announcements, or any short site-wide message that should be visible to visitors.
+Evolnux Disclaimer Bar adds a configurable disclaimer bar to your WordPress site. Use it for financial disclaimers, legal notices, risk notices, compliance messages, affiliate disclosures, announcements, or any short site-wide message that should be visible to visitors.
 
 The plugin stores settings in a single WordPress option and does not create custom database tables.
 
@@ -32,8 +32,8 @@ The plugin stores settings in a single WordPress option and does not create cust
 
 == Installation ==
 
-1. Upload the `smart-disclaimer-bar` folder to `/wp-content/plugins/`.
-2. Activate **Smart Disclaimer Bar** from the **Plugins** screen.
+1. Upload the `evolnux-disclaimer-bar` folder to `/wp-content/plugins/`.
+2. Activate **Evolnux Disclaimer Bar** from the **Plugins** screen.
 3. Go to **Settings > Disclaimer Manager**.
 4. Enable the disclaimer bar.
 5. Add your disclaimer content and configure display, design, and advanced options.
@@ -59,7 +59,7 @@ Yes. Enable the dismissible option in the advanced settings. Dismissal can be st
 
 = Does the plugin create database tables? =
 
-No. Settings are stored in the `sdb_settings` WordPress option.
+No. Settings are stored in the `evolnux_settings` WordPress option.
 
 = How does the custom hook position work? =
 

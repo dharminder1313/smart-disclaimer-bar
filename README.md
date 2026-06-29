@@ -1,4 +1,4 @@
-# Smart Disclaimer Bar
+# Evolnux Disclaimer Bar
 
 A lightweight WordPress plugin for displaying a configurable disclaimer bar on the frontend of a site. The bar can be positioned in common theme locations, restricted to specific content, styled from the WordPress admin, and optionally dismissed by visitors.
 
@@ -25,9 +25,9 @@ The plugin includes its own PHP, CSS, and JavaScript files. It does not require 
 
 ## Installation
 
-1. Copy the `smart-disclaimer-bar` folder into `wp-content/plugins/`.
+1. Copy the `evolnux-disclaimer-bar` folder into `wp-content/plugins/`.
 2. In WordPress admin, go to **Plugins**.
-3. Activate **Smart Disclaimer Bar**.
+3. Activate **Evolnux Disclaimer Bar**.
 4. Go to **Settings > Disclaimer Manager**.
 5. Enable the bar, configure the content and display options, then save.
 
@@ -105,7 +105,7 @@ Then enter `my_theme_before_content` in the plugin settings.
 
 ## Dismissal Behavior
 
-The frontend script stores dismissal state with the key `sdb_dismissed`.
+The frontend script stores dismissal state with the key `evolnux_dismissed`.
 
 - If **Dismiss Expiry** is greater than `0`, dismissal is stored in a cookie and `localStorage`.
 - If **Dismiss Expiry** is `0`, dismissal is stored in `sessionStorage` and resets when the browser session ends.
@@ -113,8 +113,8 @@ The frontend script stores dismissal state with the key `sdb_dismissed`.
 ## File Structure
 
 ```text
-smart-disclaimer-bar/
-├── smart-disclaimer-bar.php
+evolnux-disclaimer-bar/
+├── evolnux-disclaimer-bar.php
 ├── uninstall.php
 ├── includes/
 │   ├── class-loader.php
@@ -135,20 +135,20 @@ smart-disclaimer-bar/
 
 ## Key Implementation Notes
 
-- `smart-disclaimer-bar.php` defines plugin metadata, constants, dependencies, boot logic, and activation defaults.
-- `SDB_Settings` owns defaults, option reads, and sanitization.
-- `SDB_Admin` registers the settings page, assets, WordPress Settings API option, and AJAX preview.
-- `SDB_Frontend` checks whether the bar should display, enqueues public assets, and renders the bar at the selected location.
-- `sdb_should_display()` contains display-scope logic.
-- `sdb_build_inline_style()` builds the frontend and preview inline style string from sanitized settings.
-- `uninstall.php` deletes the `sdb_settings` option when the plugin is uninstalled.
+- `evolnux-disclaimer-bar.php` defines plugin metadata, constants, dependencies, boot logic, and activation defaults.
+- `EVOLNUX_Settings` owns defaults, option reads, and sanitization.
+- `EVOLNUX_Admin` registers the settings page, assets, WordPress Settings API option, and AJAX preview.
+- `EVOLNUX_Frontend` checks whether the bar should display, enqueues public assets, and renders the bar at the selected location.
+- `evolnux_should_display()` contains display-scope logic.
+- `evolnux_build_inline_style()` builds the frontend and preview inline style string from sanitized settings.
+- `uninstall.php` deletes the `evolnux_settings` option when the plugin is uninstalled.
 
 ## WordPress Option
 
 All plugin settings are stored in one serialized option:
 
 ```text
-sdb_settings
+evolnux_settings
 ```
 
 The option is created on activation if it does not already exist.
@@ -160,7 +160,7 @@ There is no compile step for this plugin. Edit the PHP, CSS, and JavaScript file
 Recommended local workflow:
 
 1. Install WordPress locally.
-2. Place this folder in `wp-content/plugins/smart-disclaimer-bar`.
+2. Place this folder in `wp-content/plugins/evolnux-disclaimer-bar`.
 3. Activate the plugin.
 4. Configure it from **Settings > Disclaimer Manager**.
 5. Test positions and display scope on the frontend.
@@ -172,16 +172,16 @@ Before release, verify:
 - The bar appears only on the configured scope.
 - Dismissal works for both expiring and session-only modes.
 - Fixed top and fixed bottom positions do not hide important theme content.
-- Uninstall removes the `sdb_settings` option.
+- Uninstall removes the `evolnux_settings` option.
 
 ## Security
 
 - Direct file access is blocked with `ABSPATH` checks.
 - Admin access is limited to users with `manage_options`.
-- Settings are sanitized in `SDB_Settings::sanitize()`.
+- Settings are sanitized in `EVOLNUX_Settings::sanitize()`.
 - Preview AJAX is protected by a nonce and capability check.
 - Output content is escaped or filtered with WordPress escaping helpers.
 
 ## License
 
-GPL-2.0. See the plugin header in `smart-disclaimer-bar.php` for license metadata.
+GPL-2.0. See the plugin header in `evolnux-disclaimer-bar.php` for license metadata.

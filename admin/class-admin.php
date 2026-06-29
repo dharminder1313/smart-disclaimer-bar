@@ -1,34 +1,34 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class SDB_Admin {
+class EVOLNUX_Admin {
 
-	public function register( SDB_Loader $loader ): void {
+	public function register( EVOLNUX_Loader $loader ): void {
 		$loader->add_action( 'admin_menu',             [ $this, 'add_menu' ] );
 		$loader->add_action( 'admin_init',             [ $this, 'register_settings' ] );
 		$loader->add_action( 'admin_enqueue_scripts',  [ $this, 'enqueue_assets' ] );
-		$loader->add_action( 'wp_ajax_sdb_preview',    [ $this, 'ajax_preview' ] );
+		$loader->add_action( 'wp_ajax_evolnux_preview',    [ $this, 'ajax_preview' ] );
 	}
 
 	public function add_menu(): void {
 		add_options_page(
-			__( 'Disclaimer Manager', 'smart-disclaimer-bar' ),
-			__( 'Disclaimer Manager', 'smart-disclaimer-bar' ),
+			__( 'Disclaimer Manager', 'evolnux-disclaimer-bar' ),
+			__( 'Disclaimer Manager', 'evolnux-disclaimer-bar' ),
 			'manage_options',
-			'smart-disclaimer-bar',
+			'evolnux-disclaimer-bar',
 			[ $this, 'render_page' ]
 		);
 	}
 
 	public function register_settings(): void {
-		register_setting( 'sdb_group', SDB_OPTION_KEY, [
-			'sanitize_callback' => [ 'SDB_Settings', 'sanitize' ],
-			'default'           => SDB_Settings::defaults(),
+		register_setting( 'evolnux_group', EVOLNUX_OPTION_KEY, [
+			'sanitize_callback' => [ 'EVOLNUX_Settings', 'sanitize' ],
+			'default'           => EVOLNUX_Settings::defaults(),
 		] );
 	}
 
 	public function enqueue_assets( string $hook ): void {
-		if ( $hook !== 'settings_page_smart-disclaimer-bar' ) return;
+		if ( $hook !== 'settings_page_evolnux-disclaimer-bar' ) return;
 
 		// WordPress colour picker
 		wp_enqueue_style( 'wp-color-picker' );
@@ -37,44 +37,44 @@ class SDB_Admin {
 		// TinyMCE / WP editor
 		wp_enqueue_editor();
 
-		$css = SDB_PLUGIN_DIR . 'admin/assets/css/admin.css';
-		$js  = SDB_PLUGIN_DIR . 'admin/assets/js/admin.js';
+		$css = EVOLNUX_PLUGIN_DIR . 'admin/assets/css/admin.css';
+		$js  = EVOLNUX_PLUGIN_DIR . 'admin/assets/js/admin.js';
 
 		wp_enqueue_style(
-			'sdb-admin',
-			SDB_PLUGIN_URL . 'admin/assets/css/admin.css',
+			'evolnux-admin',
+			EVOLNUX_PLUGIN_URL . 'admin/assets/css/admin.css',
 			[ 'wp-color-picker' ],
-			file_exists( $css ) ? (string) filemtime( $css ) : SDB_VERSION
+			file_exists( $css ) ? (string) filemtime( $css ) : EVOLNUX_VERSION
 		);
 
 		wp_enqueue_script(
-			'sdb-admin',
-			SDB_PLUGIN_URL . 'admin/assets/js/admin.js',
+			'evolnux-admin',
+			EVOLNUX_PLUGIN_URL . 'admin/assets/js/admin.js',
 			[ 'jquery', 'wp-color-picker' ],
-			file_exists( $js ) ? (string) filemtime( $js ) : SDB_VERSION,
+			file_exists( $js ) ? (string) filemtime( $js ) : EVOLNUX_VERSION,
 			true
 		);
 
-		wp_localize_script( 'sdb-admin', 'sdbAdmin', [
+		wp_localize_script( 'evolnux-admin', 'evolnuxAdmin', [
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-			'nonce'   => wp_create_nonce( 'sdb_preview' ),
+			'nonce'   => wp_create_nonce( 'evolnux_preview' ),
 			'i18n'    => [
-				'previewTitle' => __( 'Live Preview', 'smart-disclaimer-bar' ),
-				'previewError' => __( 'Preview failed. Please save settings first.', 'smart-disclaimer-bar' ),
+				'previewTitle' => __( 'Live Preview', 'evolnux-disclaimer-bar' ),
+				'previewError' => __( 'Preview failed. Please save settings first.', 'evolnux-disclaimer-bar' ),
 			],
 		] );
 	}
 
 	public function render_page(): void {
-		include SDB_PLUGIN_DIR . 'admin/settings-page.php';
+		include EVOLNUX_PLUGIN_DIR . 'admin/settings-page.php';
 	}
 
 	public function ajax_preview(): void {
-		check_ajax_referer( 'sdb_preview', 'nonce' );
+		check_ajax_referer( 'evolnux_preview', 'nonce' );
 		if ( ! current_user_can( 'manage_options' ) ) wp_die();
 
 		$raw      = isset( $_POST['settings'] ) ? (array) map_deep( wp_unslash( $_POST['settings'] ), 'wp_kses_post' ) : [];
-		$settings = wp_parse_args( SDB_Settings::sanitize( (array) $raw ), SDB_Settings::defaults() );
+		$settings = wp_parse_args( EVOLNUX_Settings::sanitize( (array) $raw ), EVOLNUX_Settings::defaults() );
 
 		ob_start();
 		self::render_bar_html( $settings );
@@ -84,21 +84,21 @@ class SDB_Admin {
 	}
 
 	public static function render_bar_html( array $s ): void {
-		$style   = sdb_build_inline_style( $s );
+		$style   = evolnux_build_inline_style( $s );
 		$classes = implode( ' ', array_filter( [
-			'sdb-bar',
-			'sdb-preview-bar',
-			'sdb-width-' . $s['width_type'],
-			$s['animation'] !== 'none' ? 'sdb-anim-' . $s['animation'] : '',
+			'evolnux-bar',
+			'evolnux-preview-bar',
+			'evolnux-width-' . $s['width_type'],
+			$s['animation'] !== 'none' ? 'evolnux-anim-' . $s['animation'] : '',
 		] ) );
 		?>
 		<div class="<?php echo esc_attr( $classes ); ?>" style="<?php echo esc_attr( $style ); ?>">
-			<?php if ( $s['width_type'] === 'boxed' ) : ?><div class="sdb-container"><?php endif; ?>
+			<?php if ( $s['width_type'] === 'boxed' ) : ?><div class="evolnux-container"><?php endif; ?>
 
-			<div class="sdb-content"><?php echo wp_kses_post( $s['content'] ); ?></div>
+			<div class="evolnux-content"><?php echo wp_kses_post( $s['content'] ); ?></div>
 
 			<?php if ( ! empty( $s['dismissible'] ) ) : ?>
-			<button type="button" class="sdb-dismiss" aria-label="<?php esc_attr_e( 'Close disclaimer', 'smart-disclaimer-bar' ); ?>">
+			<button type="button" class="evolnux-close" aria-label="<?php esc_attr_e( 'Close disclaimer', 'evolnux-disclaimer-bar' ); ?>">
 				<?php echo esc_html( $s['dismiss_text'] ?: '×' ); ?>
 			</button>
 			<?php endif; ?>

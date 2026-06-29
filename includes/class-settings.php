@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-class SDB_Settings {
+class EVOLNUX_Settings {
 
 	public static function defaults(): array {
 		return [
@@ -54,7 +54,7 @@ class SDB_Settings {
 	}
 
 	public static function get(): array {
-		return wp_parse_args( (array) get_option( SDB_OPTION_KEY, [] ), self::defaults() );
+		return wp_parse_args( (array) get_option( EVOLNUX_OPTION_KEY, [] ), self::defaults() );
 	}
 
 	public static function sanitize( array $raw ): array {

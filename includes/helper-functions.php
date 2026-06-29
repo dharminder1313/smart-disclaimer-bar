@@ -1,7 +1,7 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-function sdb_should_display( array $s ): bool {
+function evolnux_should_display( array $s ): bool {
 	if ( empty( $s['enabled'] ) ) {
 		return false;
 	}
@@ -37,7 +37,7 @@ function sdb_should_display( array $s ): bool {
 	return false;
 }
 
-function sdb_build_inline_style( array $s ): string {
+function evolnux_build_inline_style( array $s ): string {
 	$border = '';
 
 	if ( ( $s['border_position'] ?? 'none' ) !== 'none' && (int) ( $s['border_width'] ?? 0 ) > 0 ) {

@@ -1,7 +1,7 @@
 /* ─── Wrapper ────────────────────────────────────────────── */
-.sdb-wrap { max-width: 960px; }
+.evolnux-wrap { max-width: 960px; }
 
-.sdb-page-title {
+.evolnux-page-title {
   display: flex;
   align-items: center;
   font-size: 22px;
@@ -9,29 +9,29 @@
 }
 
 /* ─── Preview area ───────────────────────────────────────── */
-#sdb-preview-wrap {
+#evolnux-preview-wrap {
   background: #f0f0f1;
   border: 1px solid #c3c4c7;
   border-radius: 4px;
   padding: 16px;
   margin-bottom: 20px;
 }
-#sdb-preview-wrap h3 { margin-top: 0; }
-#sdb-preview-container {
+#evolnux-preview-wrap h3 { margin-top: 0; }
+#evolnux-preview-container {
   border-radius: 4px;
   overflow: hidden;
   border: 1px dashed #bbb;
 }
 
 /* ─── Tab nav ────────────────────────────────────────────── */
-.sdb-tabs {
+.evolnux-tabs {
   background: #fff;
   border: 1px solid #c3c4c7;
   box-shadow: 0 1px 1px rgba(0,0,0,.04);
   margin-top: 16px;
 }
 
-.sdb-tab-nav {
+.evolnux-tab-nav {
   display: flex;
   flex-wrap: wrap;
   list-style: none;
@@ -41,9 +41,9 @@
   border-bottom: 1px solid #c3c4c7;
 }
 
-.sdb-tab-nav li { margin: 0; }
+.evolnux-tab-nav li { margin: 0; }
 
-.sdb-tab-link {
+.evolnux-tab-link {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -56,9 +56,9 @@
   transition: background .15s, color .15s;
 }
 
-.sdb-tab-link:hover { color: #0073aa; background: #eaf4fb; }
+.evolnux-tab-link:hover { color: #0073aa; background: #eaf4fb; }
 
-.sdb-tab-link.is-active {
+.evolnux-tab-link.is-active {
   background: #fff;
   color: #0073aa;
   border-bottom: 2px solid #fff;
@@ -66,14 +66,14 @@
   padding-bottom: 13px;
 }
 
-.sdb-tab-link .dashicons { font-size: 16px; width: 16px; height: 16px; }
+.evolnux-tab-link .dashicons { font-size: 16px; width: 16px; height: 16px; }
 
 /* ─── Tab panels ─────────────────────────────────────────── */
-.sdb-tab-panel         { display: none; padding: 8px 20px 20px; }
-.sdb-tab-panel.is-active { display: block; }
+.evolnux-tab-panel         { display: none; padding: 8px 20px 20px; }
+.evolnux-tab-panel.is-active { display: block; }
 
 /* ─── Section subheaders inside form-table ───────────────── */
-.sdb-section-head {
+.evolnux-section-head {
   background: #f6f7f7;
   padding: 10px 12px !important;
   font-size: 13px;
@@ -84,7 +84,7 @@
 }
 
 /* ─── Toggle switch ──────────────────────────────────────── */
-.sdb-toggle {
+.evolnux-toggle {
   position: relative;
   display: inline-block;
   width: 48px;
@@ -93,15 +93,15 @@
   margin-right: 8px;
   cursor: pointer;
 }
-.sdb-toggle input { opacity: 0; width: 0; height: 0; }
-.sdb-slider {
+.evolnux-toggle input { opacity: 0; width: 0; height: 0; }
+.evolnux-slider {
   position: absolute;
   inset: 0;
   background: #b5b5ba;
   border-radius: 26px;
   transition: .25s;
 }
-.sdb-slider::before {
+.evolnux-slider::before {
   content: "";
   position: absolute;
   width: 20px;
@@ -113,17 +113,17 @@
   transition: .25s;
   box-shadow: 0 1px 3px rgba(0,0,0,.3);
 }
-.sdb-toggle input:checked + .sdb-slider { background: #0073aa; }
-.sdb-toggle input:checked + .sdb-slider::before { transform: translateX(22px); }
-.sdb-toggle input:focus + .sdb-slider { outline: 2px solid #0073aa; outline-offset: 2px; }
+.evolnux-toggle input:checked + .evolnux-slider { background: #0073aa; }
+.evolnux-toggle input:checked + .evolnux-slider::before { transform: translateX(22px); }
+.evolnux-toggle input:focus + .evolnux-slider { outline: 2px solid #0073aa; outline-offset: 2px; }
 
 /* ─── Spacing grid (padding / margin inputs) ─────────────── */
-.sdb-spacing {
+.evolnux-spacing {
   display: flex;
   gap: 16px;
   flex-wrap: wrap;
 }
-.sdb-spacing label {
+.evolnux-spacing label {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -131,17 +131,17 @@
   color: #555;
   font-weight: 600;
 }
-.sdb-spacing input { width: 60px; }
+.evolnux-spacing input { width: 60px; }
 
 /* ─── Native multi-selects ───────────────────────────────── */
-.sdb-select2 {
+.evolnux-select2 {
   width: 100%;
   max-width: 520px;
   min-height: 160px;
 }
 
 /* ─── Footer action bar ──────────────────────────────────── */
-.sdb-footer-bar {
+.evolnux-footer-bar {
   display: flex;
   align-items: center;
   gap: 10px;
