@@ -55,7 +55,7 @@ wp-content/backup*/
 
 # Keep plugin source files tracked
 !README.md
-!smart-disclaimer-bar.php
+!evolnux-disclaimer-bar.php
 !uninstall.php
 !admin/
 !includes/

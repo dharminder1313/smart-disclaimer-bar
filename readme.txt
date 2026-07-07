@@ -1,10 +1,10 @@
 === Evolnux Disclaimer Bar ===
-Contributors: evolnux
+Contributors: dharminder
 Tags: disclaimer, notice bar, announcement bar, notification bar, banner
 Requires at least: 5.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -72,10 +72,16 @@ Select **Custom Action Hook** as the position and enter the action hook name. Th
 
 == Changelog ==
 
+= 1.0.1 =
+* Renamed plugin to Evolnux Disclaimer Bar; updated text domain, prefixes, and main plugin filename.
+
 = 1.0.0 =
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.0.1 =
+Plugin renamed to Evolnux Disclaimer Bar.
 
 = 1.0.0 =
 Initial release.
