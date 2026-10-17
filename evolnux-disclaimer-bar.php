@@ -3,22 +3,24 @@
  * Plugin Name: Evolnux Disclaimer Bar
  * Plugin URI:  https://github.com/evolnux/evolnux-disclaimer-bar/
  * Description: Display a customizable disclaimer bar anywhere on your site — position, style, animation, dismiss, and scope fully configurable from Settings → Disclaimer Manager.
- * Version:     1.0.1
+ * Version:     1.1.0
  * Author:      Evolnux
  * Author URI:  https://github.com/evolnux/
  * Text Domain: evolnux-disclaimer-bar
  * License:     GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 5.6
+ * Requires PHP: 7.4
  * Tested up to: 7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'EVOLNUX_VERSION',    '1.0.1' );
-define( 'EVOLNUX_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'EVOLNUX_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'EVOLNUX_OPTION_KEY', 'evolnux_settings' );
+define( 'EVOLNUX_VERSION',          '1.1.0' );
+define( 'EVOLNUX_PLUGIN_DIR',       plugin_dir_path( __FILE__ ) );
+define( 'EVOLNUX_PLUGIN_URL',       plugin_dir_url( __FILE__ ) );
+define( 'EVOLNUX_PLUGIN_BASENAME',  plugin_basename( __FILE__ ) );
+define( 'EVOLNUX_OPTION_KEY',       'evolnux_settings' );
 
 require_once EVOLNUX_PLUGIN_DIR . 'includes/class-loader.php';
 require_once EVOLNUX_PLUGIN_DIR . 'includes/class-settings.php';

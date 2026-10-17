@@ -8,16 +8,26 @@ class EVOLNUX_Frontend {
 	public function register( EVOLNUX_Loader $loader ): void {
 		// Delay display logic until query is ready (conditional tags need it)
 		$loader->add_action( 'wp', [ $this, 'maybe_init' ] );
+		add_shortcode( 'evolnux_disclaimer', [ $this, 'render_shortcode' ] );
 	}
 
 	public function maybe_init(): void {
 		$this->settings = EVOLNUX_Settings::get();
 
-		if ( ! evolnux_should_display( $this->settings ) ) {
-			return;
+		$auto_display = evolnux_should_display( $this->settings );
+
+		// Assets are needed both for the position-based auto bar and for a manually
+		// placed [evolnux_disclaimer] shortcode, so load them whenever the feature is
+		// enabled and within its scheduled window — not only when auto-placement fires.
+		// This must happen on the wp_enqueue_scripts hook (not inside the shortcode
+		// callback) so the stylesheet is still queued in time to print in wp_head.
+		if ( $auto_display || ( ! empty( $this->settings['enabled'] ) && evolnux_within_schedule( $this->settings ) ) ) {
+			add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
 		}
 
-		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+		if ( ! $auto_display ) {
+			return;
+		}
 
 		switch ( $this->settings['position'] ) {
 			case 'top_bar':
@@ -52,7 +62,9 @@ class EVOLNUX_Frontend {
 		}
 	}
 
-	public function enqueue_assets(): void {
+	public function enqueue_assets( ?array $s = null ): void {
+		$s = $s ?? $this->settings;
+
 		$css = EVOLNUX_PLUGIN_DIR . 'public/assets/css/disclaimer-bar.css';
 		$js  = EVOLNUX_PLUGIN_DIR . 'public/assets/js/disclaimer-bar.js';
 
@@ -72,12 +84,12 @@ class EVOLNUX_Frontend {
 		);
 
 		wp_localize_script( 'evolnux-bar', 'evolnuxCfg', [
-			'position'    => $this->settings['position'],
-			'animation'   => $this->settings['animation'],
-			'responsive'  => $this->settings['responsive'],
-			'dismissible' => (bool) $this->settings['dismissible'],
-			'expiry'      => (int) $this->settings['dismiss_expiry'],
-			'zIndex'      => (int) $this->settings['z_index'],
+			'position'    => $s['position'],
+			'animation'   => $s['animation'],
+			'responsive'  => $s['responsive'],
+			'dismissible' => (bool) $s['dismissible'],
+			'expiry'      => (int) $s['dismiss_expiry'],
+			'zIndex'      => (int) $s['z_index'],
 		] );
 	}
 
@@ -86,46 +98,23 @@ class EVOLNUX_Frontend {
 
 	public function render_bar(): void {
 		$this->rendered = true;
-		$s = $this->settings;
-		$style = evolnux_build_inline_style( $s );
+		echo evolnux_render_markup( $this->settings );
+	}
 
-		$fixed_style = '';
-		if ( in_array( $s['position'], [ 'fixed_top', 'fixed_bottom' ], true ) ) {
-			$fixed_style = sprintf( 'z-index:%d;', (int) $s['z_index'] );
+	/**
+	 * [evolnux_disclaimer] shortcode — lets the bar be placed manually in content,
+	 * widgets, or template code, independent of the Position/Display Scope settings.
+	 * It still respects the master Enabled toggle and the schedule window, but ignores
+	 * fixed-position styling (a manually placed bar shouldn't jump to the viewport edge).
+	 */
+	public function render_shortcode(): string {
+		$s = $this->settings ?: EVOLNUX_Settings::get();
+
+		if ( empty( $s['enabled'] ) || ! evolnux_within_schedule( $s ) ) {
+			return '';
 		}
 
-		$classes = implode( ' ', array_filter( [
-			'evolnux-bar',
-			'evolnux-pos-' . sanitize_html_class( $s['position'] ),
-			'evolnux-w-'   . sanitize_html_class( $s['width_type'] ),
-			'evolnux-resp-' . sanitize_html_class( $s['responsive'] ),
-			$s['animation'] !== 'none' ? 'evolnux-anim-' . sanitize_html_class( $s['animation'] ) : '',
-		] ) );
-		?>
-		<div class="<?php echo esc_attr( $classes ); ?>"
-		     id="evolnux-bar"
-		     role="complementary"
-		     aria-label="<?php esc_attr_e( 'Disclaimer', 'evolnux-disclaimer-bar' ); ?>"
-		     style="<?php echo esc_attr( $style . $fixed_style ); ?>">
-
-			<?php if ( $s['width_type'] === 'boxed' ) : ?>
-			<div class="evolnux-inner">
-			<?php endif; ?>
-
-			<div class="evolnux-content"><?php echo wp_kses_post( $s['content'] ); ?></div>
-
-			<?php if ( ! empty( $s['dismissible'] ) ) : ?>
-			<button type="button" class="evolnux-close" aria-label="<?php esc_attr_e( 'Close disclaimer', 'evolnux-disclaimer-bar' ); ?>">
-				<?php echo esc_html( $s['dismiss_text'] ?: '×' ); ?>
-			</button>
-			<?php endif; ?>
-
-			<?php if ( $s['width_type'] === 'boxed' ) : ?>
-			</div>
-			<?php endif; ?>
-
-		</div>
-		<?php
+		return evolnux_render_markup( $s, [ 'evolnux-shortcode-bar' ], false, false );
 	}
 
 	public function maybe_fallback_render(): void {

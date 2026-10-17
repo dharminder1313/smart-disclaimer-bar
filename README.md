@@ -13,6 +13,8 @@ A lightweight WordPress plugin for displaying a configurable disclaimer bar on t
 - Customize colors, typography, spacing, border, opacity, width, animation, and z-index.
 - Let visitors dismiss the bar with cookie, localStorage, or sessionStorage persistence.
 - Preview the bar from the settings screen before saving changes.
+- Place the bar manually with the `[evolnux_disclaimer]` shortcode, independent of Position/Display Scope.
+- Restrict display to a date range with an optional start/end Schedule.
 - Clean uninstall support through `uninstall.php`.
 
 ## Requirements
@@ -63,6 +65,7 @@ The plugin includes its own PHP, CSS, and JavaScript files. It does not require 
   - Selected post types.
 - **Exclude Pages**: Prevents the bar from appearing on selected pages.
 - **Responsive Visibility**: Controls whether the bar appears on desktop, mobile, or both.
+- **Schedule**: Optional start/end date. Empty means no restriction on that side. Applies to both auto-placement and the shortcode.
 
 ### Design
 
@@ -103,6 +106,10 @@ do_action( 'my_theme_before_content' );
 
 Then enter `my_theme_before_content` in the plugin settings.
 
+## Shortcode
+
+Use `[evolnux_disclaimer]` in post/page content, a widget, or template code to place the bar manually. It respects the **Enabled** toggle and the **Schedule**, but ignores **Position** and **Display Scope** — it renders wherever you put the shortcode, and never becomes `position: fixed` even if Position is set to a fixed option. Multiple instances on the same page (e.g. auto-placement plus a shortcode copy) dismiss together as one disclaimer.
+
 ## Dismissal Behavior
 
 The frontend script stores dismissal state with the key `evolnux_dismissed`.
@@ -139,8 +146,10 @@ evolnux-disclaimer-bar/
 - `EVOLNUX_Settings` owns defaults, option reads, and sanitization.
 - `EVOLNUX_Admin` registers the settings page, assets, WordPress Settings API option, and AJAX preview.
 - `EVOLNUX_Frontend` checks whether the bar should display, enqueues public assets, and renders the bar at the selected location.
-- `evolnux_should_display()` contains display-scope logic.
+- `evolnux_should_display()` contains display-scope logic (enabled, schedule, scope).
+- `evolnux_within_schedule()` checks the optional start/end date window.
 - `evolnux_build_inline_style()` builds the frontend and preview inline style string from sanitized settings.
+- `evolnux_render_markup()` builds the bar's HTML markup; shared by auto-placement, the admin preview, and the `[evolnux_disclaimer]` shortcode so all three stay visually consistent.
 - `uninstall.php` deletes the `evolnux_settings` option when the plugin is uninstalled.
 
 ## WordPress Option

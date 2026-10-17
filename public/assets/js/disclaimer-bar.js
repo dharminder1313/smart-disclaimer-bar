@@ -4,8 +4,10 @@
   var cfg = window.evolnuxCfg || {};
   var STORAGE_KEY = 'evolnux_dismissed';
 
-  function getBar() {
-    return document.getElementById('evolnux-bar');
+  function getBars() {
+    // The auto-placed bar carries id="evolnux-bar"; [evolnux_disclaimer] shortcode
+    // copies share the same .evolnux-bar class but no id (ids must be unique).
+    return Array.prototype.slice.call(document.querySelectorAll('.evolnux-bar'));
   }
 
   /* ── Cookie helpers ──────────────────────────────────── */
@@ -62,37 +64,48 @@
     }
   }
 
+  function hideBar(bar) {
+    bar.style.transition = 'opacity .3s';
+    bar.style.opacity = '0';
+    setTimeout(function () { bar.style.display = 'none'; }, 320);
+  }
+
   /* ── Main init ───────────────────────────────────────── */
   function init() {
-    var bar = getBar();
-    if (!bar) return;
+    var bars = getBars();
+    if (!bars.length) return;
 
-    // Dismissed? Hide immediately.
-    if (cfg.dismissible && isDismissed()) {
-      bar.style.display = 'none';
-      return;
-    }
+    // Dismissed already? Hide every instance immediately (one disclaimer, one
+    // dismiss state — a shortcode copy on another page shouldn't reappear).
+    var dismissedAlready = cfg.dismissible && isDismissed();
 
-    // DOM reposition
-    var pos = cfg.position || '';
-    if (pos === 'below_header') {
-      repositionBelowHeader(bar);
-    } else if (pos === 'top_bar') {
-      repositionTopBar(bar);
-    }
-
-    // Dismiss button
-    if (cfg.dismissible) {
-      var btn = bar.querySelector('.evolnux-close');
-      if (btn) {
-        btn.addEventListener('click', function () {
-          bar.style.transition = 'opacity .3s';
-          bar.style.opacity = '0';
-          setTimeout(function () { bar.style.display = 'none'; }, 320);
-          markDismissed();
-        });
+    bars.forEach(function (bar) {
+      if (dismissedAlready) {
+        bar.style.display = 'none';
+        return;
       }
-    }
+
+      // DOM reposition only applies to the single auto-placed instance;
+      // shortcode-rendered copies stay exactly where the user put them.
+      if (bar.id === 'evolnux-bar') {
+        var pos = cfg.position || '';
+        if (pos === 'below_header') {
+          repositionBelowHeader(bar);
+        } else if (pos === 'top_bar') {
+          repositionTopBar(bar);
+        }
+      }
+
+      if (cfg.dismissible) {
+        var btn = bar.querySelector('.evolnux-close');
+        if (btn) {
+          btn.addEventListener('click', function () {
+            bars.forEach(hideBar);
+            markDismissed();
+          });
+        }
+      }
+    });
   }
 
   if (document.readyState === 'loading') {

@@ -72,6 +72,13 @@ unset( $post_types['attachment'] );
               <p class="description"><?php esc_html_e( 'HTML is allowed. Accepts links, bold, italic, etc.', 'evolnux-disclaimer-bar' ); ?></p>
             </td>
           </tr>
+          <tr>
+            <th scope="row"><?php esc_html_e( 'Shortcode', 'evolnux-disclaimer-bar' ); ?></th>
+            <td>
+              <input type="text" readonly value="[evolnux_disclaimer]" class="regular-text code" />
+              <p class="description"><?php esc_html_e( 'Use this shortcode to place the disclaimer bar manually in post/page content, widgets, or template code, independent of the Position and Display Scope settings below. It still respects the Enabled toggle and the Schedule on the Display tab.', 'evolnux-disclaimer-bar' ); ?></p>
+            </td>
+          </tr>
         </table>
       </div>
 
@@ -181,6 +188,21 @@ unset( $post_types['attachment'] );
                 <option value="desktop" <?php selected( $s['responsive'], 'desktop' ); ?>><?php esc_html_e( 'Desktop Only (≥768px)', 'evolnux-disclaimer-bar' ); ?></option>
                 <option value="mobile"  <?php selected( $s['responsive'], 'mobile' );  ?>><?php esc_html_e( 'Mobile Only (<768px)', 'evolnux-disclaimer-bar' ); ?></option>
               </select>
+            </td>
+          </tr>
+
+          <tr><th colspan="2" class="evolnux-section-head"><?php esc_html_e( 'Schedule', 'evolnux-disclaimer-bar' ); ?></th></tr>
+          <tr>
+            <th scope="row"><?php esc_html_e( 'Display Window', 'evolnux-disclaimer-bar' ); ?></th>
+            <td>
+              <label><?php esc_html_e( 'Start', 'evolnux-disclaimer-bar' ); ?>
+                <input type="date" name="evolnux_settings[schedule_start]" value="<?php echo esc_attr( $s['schedule_start'] ); ?>" />
+              </label>
+              &nbsp;&nbsp;
+              <label><?php esc_html_e( 'End', 'evolnux-disclaimer-bar' ); ?>
+                <input type="date" name="evolnux_settings[schedule_end]" value="<?php echo esc_attr( $s['schedule_end'] ); ?>" />
+              </label>
+              <p class="description"><?php esc_html_e( 'Leave both empty to show with no date restriction. The bar stops displaying automatically after the end date — useful for time-bound legal or promotional notices.', 'evolnux-disclaimer-bar' ); ?></p>
             </td>
           </tr>
 

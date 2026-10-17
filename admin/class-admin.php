@@ -8,6 +8,17 @@ class EVOLNUX_Admin {
 		$loader->add_action( 'admin_init',             [ $this, 'register_settings' ] );
 		$loader->add_action( 'admin_enqueue_scripts',  [ $this, 'enqueue_assets' ] );
 		$loader->add_action( 'wp_ajax_evolnux_preview',    [ $this, 'ajax_preview' ] );
+		$loader->add_filter( 'plugin_action_links_' . EVOLNUX_PLUGIN_BASENAME, [ $this, 'add_settings_link' ] );
+	}
+
+	public function add_settings_link( array $links ): array {
+		$url = admin_url( 'options-general.php?page=evolnux-disclaimer-bar' );
+		array_unshift( $links, sprintf(
+			'<a href="%s">%s</a>',
+			esc_url( $url ),
+			esc_html__( 'Settings', 'evolnux-disclaimer-bar' )
+		) );
+		return $links;
 	}
 
 	public function add_menu(): void {
@@ -39,6 +50,17 @@ class EVOLNUX_Admin {
 
 		$css = EVOLNUX_PLUGIN_DIR . 'admin/assets/css/admin.css';
 		$js  = EVOLNUX_PLUGIN_DIR . 'admin/assets/js/admin.js';
+
+		// The preview reuses the frontend bar markup/classes, so load the frontend
+		// stylesheet here too — otherwise boxed width, close button, and animations
+		// never actually render in the live preview.
+		$bar_css = EVOLNUX_PLUGIN_DIR . 'public/assets/css/disclaimer-bar.css';
+		wp_enqueue_style(
+			'evolnux-bar',
+			EVOLNUX_PLUGIN_URL . 'public/assets/css/disclaimer-bar.css',
+			[],
+			file_exists( $bar_css ) ? (string) filemtime( $bar_css ) : EVOLNUX_VERSION
+		);
 
 		wp_enqueue_style(
 			'evolnux-admin',
@@ -84,27 +106,6 @@ class EVOLNUX_Admin {
 	}
 
 	public static function render_bar_html( array $s ): void {
-		$style   = evolnux_build_inline_style( $s );
-		$classes = implode( ' ', array_filter( [
-			'evolnux-bar',
-			'evolnux-preview-bar',
-			'evolnux-width-' . $s['width_type'],
-			$s['animation'] !== 'none' ? 'evolnux-anim-' . $s['animation'] : '',
-		] ) );
-		?>
-		<div class="<?php echo esc_attr( $classes ); ?>" style="<?php echo esc_attr( $style ); ?>">
-			<?php if ( $s['width_type'] === 'boxed' ) : ?><div class="evolnux-container"><?php endif; ?>
-
-			<div class="evolnux-content"><?php echo wp_kses_post( $s['content'] ); ?></div>
-
-			<?php if ( ! empty( $s['dismissible'] ) ) : ?>
-			<button type="button" class="evolnux-close" aria-label="<?php esc_attr_e( 'Close disclaimer', 'evolnux-disclaimer-bar' ); ?>">
-				<?php echo esc_html( $s['dismiss_text'] ?: '×' ); ?>
-			</button>
-			<?php endif; ?>
-
-			<?php if ( $s['width_type'] === 'boxed' ) : ?></div><?php endif; ?>
-		</div>
-		<?php
+		echo evolnux_render_markup( $s, [ 'evolnux-preview-bar' ], false, false );
 	}
 }

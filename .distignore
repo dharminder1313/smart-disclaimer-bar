@@ -1,0 +1,47 @@
+.git
+.github
+.gitignore
+.gitattributes
+.distignore
+
+# AI agent / internal docs — never ship to WP.org or production
+agent.md
+.claude
+
+# Repo-only docs (readme.txt is the one WP.org reads)
+README.md
+
+# Editor / OS files
+.idea
+.vscode
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# Dev tooling, tests, CI
+tests
+phpunit.xml
+phpunit.xml.dist
+.phpunit.result.cache
+composer.json
+composer.lock
+package.json
+package-lock.json
+node_modules
+vendor
+Gruntfile.js
+webpack.config.js
+.editorconfig
+.eslintrc
+.eslintrc.js
+phpcs.xml
+phpcs.xml.dist
+
+# Build / local artifacts
+*.zip
+*.tar.gz
+dist
+build
+release
+releases

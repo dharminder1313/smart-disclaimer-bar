@@ -18,6 +18,8 @@ class EVOLNUX_Settings {
 			'selected_post_types' => [],
 			'excluded_pages'      => [],
 			'responsive'          => 'both',
+			'schedule_start'      => '',
+			'schedule_end'        => '',
 
 			// Typography
 			'font_size'           => '14',
@@ -79,6 +81,9 @@ class EVOLNUX_Settings {
 		$valid_resp   = [ 'both', 'desktop', 'mobile' ];
 		$c['responsive'] = in_array( $raw['responsive'] ?? '', $valid_resp, true ) ? $raw['responsive'] : $d['responsive'];
 
+		$c['schedule_start'] = self::sanitize_date( $raw['schedule_start'] ?? '' );
+		$c['schedule_end']   = self::sanitize_date( $raw['schedule_end']   ?? '' );
+
 		// Typography
 		$c['font_size']   = min( 64, max( 8, absint( $raw['font_size']  ?? $d['font_size'] ) ) );
 		$valid_fw = [ '100','200','300','400','500','600','700','800','900','normal','bold' ];
@@ -116,5 +121,22 @@ class EVOLNUX_Settings {
 		$c['z_index']   = min( 999999, max( 1, absint( $raw['z_index'] ?? $d['z_index'] ) ) );
 
 		return $c;
+	}
+
+	/**
+	 * Returns the value as a Y-m-d date string, or '' if empty/invalid.
+	 */
+	private static function sanitize_date( $value ): string {
+		$value = is_string( $value ) ? trim( $value ) : '';
+		if ( $value === '' ) {
+			return '';
+		}
+
+		$d = DateTime::createFromFormat( 'Y-m-d', $value );
+		if ( ! $d || $d->format( 'Y-m-d' ) !== $value ) {
+			return '';
+		}
+
+		return $value;
 	}
 }

@@ -4,7 +4,7 @@ Tags: disclaimer, notice bar, announcement bar, notification bar, banner
 Requires at least: 5.6
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.0.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -28,6 +28,8 @@ The plugin stores settings in a single WordPress option and does not create cust
 * Allow visitors to dismiss the bar.
 * Configure dismissal expiry in days or make dismissal session-only.
 * Preview the design in the admin settings screen.
+* Place the bar manually anywhere with the `[evolnux_disclaimer]` shortcode.
+* Restrict the bar to a date range with a start and end date (optional).
 * Remove plugin settings on uninstall.
 
 == Installation ==
@@ -65,12 +67,27 @@ No. Settings are stored in the `evolnux_settings` WordPress option.
 
 Select **Custom Action Hook** as the position and enter the action hook name. The plugin will render the disclaimer bar when that hook runs.
 
+= Can I place the bar manually instead of using Position? =
+
+Yes. Use the `[evolnux_disclaimer]` shortcode in any post, page, or widget. It still respects the Enabled toggle and the Schedule window, but ignores the Position and Display Scope settings so you can place it exactly where you want.
+
+= Can I limit the disclaimer to a date range? =
+
+Yes. On the Display tab, set a Start and/or End date under Schedule. Leave either field empty for no limit on that side. This applies to both the automatic placement and the shortcode.
+
 == Screenshots ==
 
 1. Admin settings screen.
 2. Frontend top bar display.
 
 == Changelog ==
+
+= 1.1.0 =
+* Added the `[evolnux_disclaimer]` shortcode for manual placement in content, widgets, or templates.
+* Added an optional Schedule (start/end date) to show the bar only within a date range.
+* Added a "Settings" link on the Plugins screen.
+* Fixed the admin live preview not loading the frontend stylesheet, so boxed width, the close button position, and animations now render correctly in Preview.
+* Dismiss behaviour now supports multiple bar instances on the same page (e.g. an auto-placed bar plus a shortcode-placed one) and hides them together.
 
 = 1.0.1 =
 * Renamed plugin to Evolnux Disclaimer Bar; updated text domain, prefixes, and main plugin filename.
@@ -79,6 +96,9 @@ Select **Custom Action Hook** as the position and enter the action hook name. Th
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.1.0 =
+Adds the [evolnux_disclaimer] shortcode and an optional display schedule (start/end date). No settings are changed on upgrade.
 
 = 1.0.1 =
 Plugin renamed to Evolnux Disclaimer Bar.
