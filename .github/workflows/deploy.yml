@@ -1,0 +1,47 @@
+name: Deploy to WordPress.org
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+
+jobs:
+  verify-version:
+    name: Verify version consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tag must match plugin header, EVOLNUX_VERSION, and readme Stable tag
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          HEADER_VERSION=$(grep -m1 '^ \* Version:' evolnux-disclaimer-bar.php | sed -E 's/.*Version:\s*//' | xargs)
+          CONST_VERSION=$(grep -m1 "define( 'EVOLNUX_VERSION'" evolnux-disclaimer-bar.php | sed -E "s/.*'([0-9.]+)'.*/\1/")
+          STABLE_TAG=$(grep -m1 '^Stable tag:' readme.txt | sed -E 's/^Stable tag:\s*//' | xargs)
+
+          echo "Git tag:       $TAG"
+          echo "Plugin header: $HEADER_VERSION"
+          echo "VERSION const: $CONST_VERSION"
+          echo "Stable tag:    $STABLE_TAG"
+
+          if [ "$TAG" != "$HEADER_VERSION" ] || [ "$TAG" != "$CONST_VERSION" ] || [ "$TAG" != "$STABLE_TAG" ]; then
+            echo "::error::Version mismatch — tag ($TAG) must match the plugin header Version, EVOLNUX_VERSION constant, and readme.txt Stable tag before this can deploy."
+            exit 1
+          fi
+
+  deploy:
+    name: Deploy to WordPress.org SVN
+    needs: verify-version
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Honors .distignore in the repo root to exclude dev-only files
+      # (agent.md, .claude/, README.md, root /assets screenshots, etc.)
+      # from the trunk that gets pushed to plugins.svn.wordpress.org.
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SLUG: evolnux-disclaimer-bar

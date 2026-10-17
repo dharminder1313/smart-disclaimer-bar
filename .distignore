@@ -1,12 +1,18 @@
-.git
-.github
+/.git
+/.github
 .gitignore
 .gitattributes
 .distignore
 
 # AI agent / internal docs — never ship to WP.org or production
 agent.md
-.claude
+/.claude
+
+# Repo-only marketing screenshots — belong in the SVN `assets/` directory
+# (a sibling of trunk/tags on WP.org), not inside the installed plugin.
+# Anchored to root only: admin/assets and public/assets are real plugin
+# CSS/JS and must never match this.
+/assets
 
 # Repo-only docs (readme.txt is the one WP.org reads)
 README.md
@@ -20,7 +26,7 @@ README.md
 Thumbs.db
 
 # Dev tooling, tests, CI
-tests
+/tests
 phpunit.xml
 phpunit.xml.dist
 .phpunit.result.cache
@@ -28,8 +34,8 @@ composer.json
 composer.lock
 package.json
 package-lock.json
-node_modules
-vendor
+/node_modules
+/vendor
 Gruntfile.js
 webpack.config.js
 .editorconfig
@@ -41,7 +47,7 @@ phpcs.xml.dist
 # Build / local artifacts
 *.zip
 *.tar.gz
-dist
-build
-release
-releases
+/dist
+/build
+/release
+/releases
