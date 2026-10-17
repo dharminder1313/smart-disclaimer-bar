@@ -62,8 +62,8 @@ class EVOLNUX_Frontend {
 		}
 	}
 
-	public function enqueue_assets( ?array $s = null ): void {
-		$s = $s ?? $this->settings;
+	public function enqueue_assets(): void {
+		$s = $this->settings;
 
 		$css = EVOLNUX_PLUGIN_DIR . 'public/assets/css/disclaimer-bar.css';
 		$js  = EVOLNUX_PLUGIN_DIR . 'public/assets/js/disclaimer-bar.js';
